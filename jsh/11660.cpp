@@ -15,15 +15,13 @@ int main()
     int prefix_sum[1045][1045] = {};
     for (int i = 0; i < N; i++)
     {
-        for (int j = 0; j < N; j++)
+        int x;
+        cin >> x;
+        prefix_sum[i][0] = x;
+        for (int j = 1; j < N; j++)
         {
-            int x;
             cin >> x;
-
-            if (j == 0)
-                prefix_sum[i][j] = x;
-            else
-                prefix_sum[i][j] = x + prefix_sum[i][j - 1];
+            prefix_sum[i][j] = x + prefix_sum[i][j - 1];
         }
     }
 
@@ -35,8 +33,10 @@ int main()
         long long int sum = 0;
         for (int j = x1 - 1; j < x2; j++)
         {
-            // 음수인덱스 접근이 있긴한데 상관없을 것 같아서 그냥 둠
-            sum += prefix_sum[j][y2 - 1] - prefix_sum[j][y1 - 2];
+            if (y1 < 2)
+                sum += prefix_sum[j][y2 - 1];
+            else
+                sum += prefix_sum[j][y2 - 1] - prefix_sum[j][y1 - 2];
         }
 
         cout << sum << "\n";
